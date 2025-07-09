@@ -1,0 +1,10 @@
+.bg-grey{
+    background-color: rgb(23, 22, 22);
+}
+.invert{
+    filter: invert(1);
+}
+.flex{
+    display :flex;
+    align-items: center;
+}
