@@ -431,6 +431,7 @@ transition: left 0.5s;
         bottom: 80px;
     }
    
+
     .home{
         width: 95vw;
         padding: 0px;
@@ -458,6 +459,10 @@ transition: left 0.5s;
 .container{
     height: 100%;
 }
+.songlist ul li:hover {
+    background-color: var(--hover-bg);
+}
+
 .cards{
     display: flex;
     flex-direction: column;
