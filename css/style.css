@@ -82,9 +82,11 @@ body {
 ::-webkit-scrollbar {
     width: 5px;
 }
+
 ::-webkit-scrollbar-track {
     background: #302f2f;
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: #000;
     border-radius: 10px;
@@ -109,6 +111,11 @@ body {
 
 .songlist ul li:hover {
     background-color: #1a1a1a;
+}
+
+.songlist ul li.active-song {
+    background-color: #1db954;
+    color: black;
 }
 
 .songList .info {
@@ -337,7 +344,6 @@ body {
     cursor: pointer;
 }
 
-/* Responsive (max-width: 1200px) */
 @media (max-width: 1200px) {
     .left {
         background-color: black;
@@ -408,7 +414,6 @@ body {
     }
 }
 
-/* Responsive (max-width: 500px) */
 @media (max-width: 500px) {
     .left {
         background-color: black;
