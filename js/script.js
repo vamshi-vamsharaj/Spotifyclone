@@ -4,13 +4,9 @@ let songs;
 let currFolder;
 
 function secondsToMinutesSeconds(seconds) {
-    if (isNaN(seconds) || seconds < 0) {
-        return "00:00";
-    }
-
+    if (isNaN(seconds) || seconds < 0) return "00:00";
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
-
     return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 }
 
@@ -23,7 +19,7 @@ async function getSongs(folder) {
     let as = div.getElementsByTagName("a");
     songs = [];
 
-    let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
+    let songUL = document.querySelector(".songList ul");
     songUL.innerHTML = "<li>Loading songs...</li>";
     play.disabled = true;
 
@@ -36,14 +32,14 @@ async function getSongs(folder) {
 
     songUL.innerHTML = "";
     for (const song of songs) {
-        songUL.innerHTML += `<li><img class="invert" width="34" src="img/music.svg" alt="">
+        songUL.innerHTML += `<li><img class="invert" width="34" src="img/music.svg">
             <div class="info">
                 <div>${song.replaceAll("%20", " ")}</div>
                 <div>Harry</div>
             </div>
             <div class="playnow">
                 <span>Play Now</span>
-                <img class="invert" src="img/play.svg" alt="">
+                <img class="invert" src="img/play.svg">
             </div></li>`;
     }
 
@@ -92,13 +88,11 @@ async function displayAlbums() {
             let data = await a.json();
             cardContainer.innerHTML += `<div data-folder="${folder}" class="card">
                 <div class="play">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 20V4L19 12L5 20Z" stroke="#141B34" fill="#000" stroke-width="1.5"
-                            stroke-linejoin="round" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 20V4L19 12L5 20Z" stroke="#141B34" fill="#000" stroke-width="1.5" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <img src="/songs/${folder}/cover.jpg" alt="">
+                <img src="/songs/${folder}/cover.jpg">
                 <h2>${data.title}</h2>
                 <p>${data.description}</p>
             </div>`;
@@ -150,17 +144,13 @@ async function main() {
     previous.addEventListener("click", () => {
         currentSong.pause();
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
-        if ((index - 1) >= 0) {
-            playMusic(songs[index - 1]);
-        }
+        if ((index - 1) >= 0) playMusic(songs[index - 1]);
     });
 
     next.addEventListener("click", () => {
         currentSong.pause();
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
-        if ((index + 1) < songs.length) {
-            playMusic(songs[index + 1]);
-        }
+        if ((index + 1) < songs.length) playMusic(songs[index + 1]);
     });
 
     document.querySelector(".range input").addEventListener("change", (e) => {
