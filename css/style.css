@@ -486,12 +486,5 @@ body {
         width: 79vw;
     }
 
-    .playbar {
-        width: 82vw;
-        bottom: -34px;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: black;
-        position: fixed;
-    }
+
 }
