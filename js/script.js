@@ -69,6 +69,7 @@ function playMusic(track, pause = false) {
     document.querySelector(".songinfo").innerHTML = decodeURI(track);
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 
+    // ✅ Changed: Only highlight current playing song
     document.querySelectorAll(".songList li").forEach(li => li.classList.remove("active-song"));
     Array.from(document.querySelectorAll(".songList li")).forEach(li => {
         if (li.querySelector(".info").firstElementChild.innerText.trim() === decodeURI(track)) {
@@ -84,21 +85,29 @@ async function displayAlbums() {
     div.innerHTML = response;
     let anchors = div.getElementsByTagName("a");
     let cardContainer = document.querySelector(".cardContainer");
-    cardContainer.innerHTML = ""; // Clear before appending
+    cardContainer.innerHTML = "";
 
     for (let index = 0; index < anchors.length; index++) {
         const e = anchors[index];
         if (e.href.includes("/songs") && !e.href.includes(".htaccess")) {
             let folder = e.href.split("/").slice(-2)[0];
-            let a = await fetch(`/songs/${folder}/info.json`);
-            let data = await a.json();
+
+            // ✅ Added: error handling
+            let data = { title: folder, description: "No info.json found" };
+            try {
+                let a = await fetch(`/songs/${folder}/info.json`);
+                data = await a.json();
+            } catch (error) {
+                console.warn(`Could not load info.json for ${folder}`);
+            }
+
             cardContainer.innerHTML += `<div data-folder="${folder}" class="card">
                 <div class="play">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M5 20V4L19 12L5 20Z" stroke="#141B34" fill="#000" stroke-width="1.5" stroke-linejoin="round" />
                     </svg>
                 </div>
-                <img src="/songs/${folder}/cover.jpg" alt="${data.title} album cover">
+                <img src="/songs/${folder}/cover.jpg" onerror="this.src='img/default.jpg'" alt="${data.title} album cover">
                 <h2>${data.title}</h2>
                 <p>${data.description}</p>
             </div>`;
@@ -107,7 +116,7 @@ async function displayAlbums() {
 
     Array.from(document.getElementsByClassName("card")).forEach(e => {
         e.addEventListener("click", async item => {
-            e.classList.add("loading"); // add class for loader
+            e.classList.add("loading");
             songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`);
             if (songs.length > 0) playMusic(songs[0]);
             e.classList.remove("loading");
