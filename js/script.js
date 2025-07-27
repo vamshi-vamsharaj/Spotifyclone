@@ -61,6 +61,7 @@ async function getSongs(folder) {
 
 function playMusic(track, pause = false) {
     currentSong.src = `/${currFolder}/` + track;
+
     if (!pause) {
         currentSong.play();
         play.src = "img/pause.svg";
@@ -69,7 +70,6 @@ function playMusic(track, pause = false) {
     document.querySelector(".songinfo").innerHTML = decodeURI(track);
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 
-    // ✅ Changed: Only highlight current playing song
     document.querySelectorAll(".songList li").forEach(li => li.classList.remove("active-song"));
     Array.from(document.querySelectorAll(".songList li")).forEach(li => {
         if (li.querySelector(".info").firstElementChild.innerText.trim() === decodeURI(track)) {
@@ -92,7 +92,6 @@ async function displayAlbums() {
         if (e.href.includes("/songs") && !e.href.includes(".htaccess")) {
             let folder = e.href.split("/").slice(-2)[0];
 
-            // ✅ Added: error handling
             let data = { title: folder, description: "No info.json found" };
             try {
                 let a = await fetch(`/songs/${folder}/info.json`);
@@ -147,10 +146,11 @@ async function main() {
     });
 
     document.querySelector(".seekbar").addEventListener("click", e => {
+        const seekbar = e.target.getBoundingClientRect();
         if (!currentSong.duration) return;
-        let percent = (e.offsetX / e.target.getBoundingClientRect().width) * 100;
-        document.querySelector(".circle").style.left = percent + "%";
-        currentSong.currentTime = ((currentSong.duration) * percent) / 100;
+        let percent = (e.clientX - seekbar.left) / seekbar.width;
+        currentSong.currentTime = currentSong.duration * percent;
+        document.querySelector(".circle").style.left = percent * 100 + "%";
     });
 
     document.querySelector(".hamburger").addEventListener("click", () => {
