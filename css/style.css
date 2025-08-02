@@ -505,5 +505,7 @@ body {
         max-height: 54vh;
     }
 
-  
+    .card {
+        width: 79vw;
+    }
 }
