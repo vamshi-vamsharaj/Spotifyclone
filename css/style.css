@@ -363,6 +363,13 @@ body {
 .songtime {
     width: 89px;
 }
+.left {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+.left.active {
+    transform: translateX(0);
+}
 
 .voltime {
     display: flex;
@@ -460,7 +467,12 @@ body {
         transform: translate(-50%, -50%);
         position: fixed;
     }
-
+@media (max-width: 500px) {
+    .playbar {
+        height: 60px;
+        padding: 10px 15px;
+    }
+}
     .hamburger {
         display: block;
     }
