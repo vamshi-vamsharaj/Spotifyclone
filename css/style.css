@@ -497,7 +497,24 @@ body {
     .hamburger {
         display: block;
     }
-
+.left {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        transform: translateX(-120%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+    }
+    .left.active {
+        transform: translateX(0);
+    }
+    .right {
+        width: 100%;
+    }
+    .playbar {
+        height: 60px;
+    }
     .left .close {
         position: absolute;
         right: 31px;
