@@ -151,6 +151,15 @@ async function main() {
             document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%";
         }
     });
+localStorage.setItem("lastTrack", track);
+
+const lastTrack = localStorage.getItem("lastTrack");
+if (lastTrack && songs.includes(lastTrack)) {
+    playMusic(lastTrack, true);
+} else {
+    playMusic(songs[0], true);
+}
+
 
     document.querySelector(".seekbar").addEventListener("click", (e) => {
         const rect = e.target.getBoundingClientRect();
